@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         btn_sendHelloWorld.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 2017/11/20
+                mPresenter.sendMessageToPort("Hello World!");
             }
         });
     }

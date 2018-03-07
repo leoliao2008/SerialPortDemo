@@ -18,14 +18,15 @@
     <Spinner
         android:id="@+id/spinner_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="50dp"/>
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RadioGroup
             android:id="@+id/radio_group"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"/>
     </HorizontalScrollView>
     <Button

@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,7 +101,10 @@ public class MainActivityPresenter {
                 @Override
                 public void run() {
                      while (true){
-                         if(mThread.isInterrupted()){
+                         if(mThread==null){
+                             break;
+                         }
+                         if(mThread!=null&&mThread.isInterrupted()){
                              break;
                          }
                          try {
@@ -114,6 +121,11 @@ public class MainActivityPresenter {
                 }
             });
             mThread.setPriority(Thread.MAX_PRIORITY);
+            updateListView("串口"+portPath+"打开成功！");
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putString(StaticData.CURRENT_SERIAL_PORT,portPath);
+            editor.putString(StaticData.CURRENT_BAUD_RATE,String.valueOf(bdRate));
+            editor.apply();
             mThread.start();
         } catch (Exception e) {
             updateListView(e.getMessage());
@@ -123,7 +135,6 @@ public class MainActivityPresenter {
     private void closeSerialPort() {
         if(mThread!=null){
             mThread.interrupt();
-            mThread=null;
         }
         if(mInputStream!=null){
             try {
@@ -181,7 +192,15 @@ public class MainActivityPresenter {
                 mActivity,
                 android.R.layout.simple_spinner_item,
                 mBaudRates
-        );
+        ){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView view = (TextView) super.getView(position, convertView, parent);
+                view.setGravity(Gravity.CENTER);
+                return view;
+            }
+        };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mActivity.getSpinner().setAdapter(adapter);
         mBaudRate = mSharedPreferences.getString(StaticData.CURRENT_BAUD_RATE, "115200");
@@ -214,6 +233,16 @@ public class MainActivityPresenter {
     public void onStop() {
         if(mActivity.isFinishing()){
             closeSerialPort();
+        }
+    }
+
+    public void sendMessageToPort(String msg) {
+        if(mOutputStream!=null){
+            try {
+                mOutputStream.write(msg.getBytes());
+            } catch (IOException e) {
+                updateListView(e.getMessage());
+            }
         }
     }
 }
