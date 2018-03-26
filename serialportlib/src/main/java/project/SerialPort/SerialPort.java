@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +31,7 @@ public class SerialPort {
     private FileInputStream mFileInputStream;
     private FileOutputStream mFileOutputStream;
     private File device;
+    private ParcelFileDescriptor mParcelFileDescriptor;
 
     /**
      * Open serial port with params.
@@ -74,6 +76,7 @@ public class SerialPort {
         }
         mFileInputStream = new FileInputStream(mFd);
         mFileOutputStream = new FileOutputStream(mFd);
+        mParcelFileDescriptor=ParcelFileDescriptor.open(device,ParcelFileDescriptor.MODE_READ_WRITE);
     }
 
     /**
@@ -101,8 +104,12 @@ public class SerialPort {
      */
     public OutputStream getOutputStream() {return mFileOutputStream;}
 
-    public FileDescriptor getFd() {
+    public FileDescriptor getFileDescriptor() {
         return mFd;
+    }
+
+    public ParcelFileDescriptor getParcelFileDescriptor() {
+        return mParcelFileDescriptor;
     }
 
     private native FileDescriptor open(String path, int baudrate, int flag);
