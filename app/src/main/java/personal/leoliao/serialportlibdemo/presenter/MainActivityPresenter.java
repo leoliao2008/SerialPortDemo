@@ -46,7 +46,7 @@ public class MainActivityPresenter {
     private SerialPort mSerialPort;
     private InputStream mInputStream;
     private OutputStream mOutputStream;
-    private Thread mThread;
+    private Thread mRevThread;
     private Handler mHandler;
     private byte[] temp=new byte[256];
 
@@ -68,7 +68,8 @@ public class MainActivityPresenter {
         mRadioGroup = mActivity.getRadioGroup();
         mPortPaths = mSerialPortModel.getSerialPortPaths();
         mPortPath=mSharedPreferences.getString(StaticData.CURRENT_SERIAL_PORT,"ttyAMA0");
-        final RadioGroup.LayoutParams params=new RadioGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final RadioGroup.LayoutParams params=new RadioGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50);
+        params.gravity=Gravity.CENTER;
         for (String path: mPortPaths){
             RadioButton rb=new RadioButton(mActivity);
             rb.setText(path);
@@ -97,14 +98,14 @@ public class MainActivityPresenter {
             mSerialPort=mSerialPortModel.openSerialPort(portPath,bdRate);
             mInputStream = mSerialPort.getInputStream();
             mOutputStream = mSerialPort.getOutputStream();
-            mThread = new Thread(new Runnable() {
+            mRevThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                      while (true){
-                         if(mThread==null){
+                         if(mRevThread ==null){
                              break;
                          }
-                         if(mThread!=null&&mThread.isInterrupted()){
+                         if(mRevThread !=null&& mRevThread.isInterrupted()){
                              break;
                          }
                          try {
@@ -114,27 +115,27 @@ public class MainActivityPresenter {
                                  updateListView(new String(temp,0,len));
                              }
                          } catch (IOException e) {
-                             updateListView(e.getMessage());
+                             updateListView(e.getMessage()+" IOStream无法读取数据。");
                              break;
                          }
                      }
                 }
             });
-            mThread.setPriority(Thread.MAX_PRIORITY);
+            mRevThread.setPriority(Thread.MAX_PRIORITY);
             updateListView("串口"+portPath+"打开成功！");
             SharedPreferences.Editor editor = mSharedPreferences.edit();
             editor.putString(StaticData.CURRENT_SERIAL_PORT,portPath);
             editor.putString(StaticData.CURRENT_BAUD_RATE,String.valueOf(bdRate));
             editor.apply();
-            mThread.start();
+            mRevThread.start();
         } catch (Exception e) {
             updateListView(e.getMessage());
         }
     }
 
     private void closeSerialPort() {
-        if(mThread!=null){
-            mThread.interrupt();
+        if(mRevThread !=null){
+            mRevThread.interrupt();
         }
         if(mInputStream!=null){
             try {
@@ -236,13 +237,15 @@ public class MainActivityPresenter {
         }
     }
 
-    public void sendMessageToPort(String msg) {
+    public void sendTestMessage(String msg) {
         if(mOutputStream!=null){
             try {
                 mOutputStream.write(msg.getBytes());
+                updateListView("Sending: "+msg);
             } catch (IOException e) {
                 updateListView(e.getMessage());
             }
         }
     }
+
 }

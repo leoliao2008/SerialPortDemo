@@ -5,36 +5,67 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="personal.leoliao.serialportlibdemo.activity.MainActivity">
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:background="#F7D98C"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="波特率"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:background="@android:color/darker_gray"/>
+        <Spinner
+            android:id="@+id/spinner_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="串口"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:background="@android:color/darker_gray"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"/>
+        </ScrollView>
 
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+    </LinearLayout>
 
-    <Spinner
-        android:id="@+id/spinner_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"/>
-    </HorizontalScrollView>
-    <Button
-        android:id="@+id/btn_send_hello_world"
-        android:layout_width="match_parent"
+
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Send “Hello World”"
-        android:textAllCaps="false"/>
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:textAllCaps="false"/>
+    </LinearLayout>
 
 
 </LinearLayout>

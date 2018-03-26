@@ -9,7 +9,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -31,7 +30,7 @@ android {
 }
 
 def SDK_NAME = "SerialPortLib";
-def SDK_VERSION = "_V2.1";
+def SDK_VERSION = "_V2.2";
 def sdkDestinationPath = "build";
 def zipFile = file('build/intermediates/bundles/default/classes.jar')
 

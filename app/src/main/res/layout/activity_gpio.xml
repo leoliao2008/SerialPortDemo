@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="personal.leoliao.serialportlibdemo.activity.GPIOActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="请输入GPIO路径"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="电源控制："/>
+    <EditText
+        android:id="@+id/activity_gpio_test_edt_gpio_pow_ctrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:onClick="testPower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="串口切换："/>
+    <EditText
+        android:id="@+id/activity_gpio_test_edt_gpio_sp_ctrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:onClick="testToggleSp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试"/>
+
+
+
+</LinearLayout>

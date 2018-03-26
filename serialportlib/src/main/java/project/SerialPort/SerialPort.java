@@ -1,5 +1,6 @@
 package project.SerialPort;
 
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import java.io.File;
@@ -100,8 +101,11 @@ public class SerialPort {
      */
     public OutputStream getOutputStream() {return mFileOutputStream;}
 
+    public FileDescriptor getFd() {
+        return mFd;
+    }
 
-    private native FileDescriptor open(String path,int baudrate,int flag);
+    private native FileDescriptor open(String path, int baudrate, int flag);
 
     /**
      * Release the serial port. Strongly recommend to close the serial port when
